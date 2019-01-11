@@ -5,20 +5,23 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/alex-ant/melapoly-tracker/be/players"
 	"github.com/go-zoo/bone"
 )
 
 // API contains HTTP server's settings.
 type API struct {
-	port     int
-	listener net.Listener
-	mux      *bone.Mux
+	port        int
+	listener    net.Listener
+	mux         *bone.Mux
+	playersProc *players.Players
 }
 
 // New returns new API.
-func New(port int) *API {
+func New(port int, playersProc *players.Players) *API {
 	return &API{
-		port: port,
+		port:        port,
+		playersProc: playersProc,
 	}
 }
 

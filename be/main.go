@@ -8,9 +8,13 @@ import (
 
 	"github.com/alex-ant/melapoly-tracker/be/api"
 	"github.com/alex-ant/melapoly-tracker/be/params"
+	"github.com/alex-ant/melapoly-tracker/be/players"
 )
 
-var apiServer *api.API
+var (
+	apiServer   *api.API
+	playersProc *players.Players
+)
 
 func shutdown() {
 	log.Println("Shutting down gracefully..")
@@ -23,8 +27,11 @@ func shutdown() {
 }
 
 func main() {
+	// Initialize players processor.
+	playersProc = players.New(*params.InitialAmount)
+
 	// Initialize API HTTP server.
-	apiServer = api.New(*params.APIPort)
+	apiServer = api.New(*params.APIPort, playersProc)
 
 	// Start API HTTP server.
 	apiStartErr := apiServer.Start()

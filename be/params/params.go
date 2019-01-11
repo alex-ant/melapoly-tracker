@@ -9,6 +9,8 @@ import (
 
 var (
 	APIPort = flag.Int("api-port", 30303, "HTTP API port number")
+
+	InitialAmount = flag.Int("initial-amount", 12000, "Initial amount of money for each player")
 )
 
 func init() {

@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 )
@@ -12,7 +11,11 @@ type authRequest struct {
 }
 
 type authResponse struct {
-	ValidToken string `json:"validToken"`
+	Authenticated bool `json:"authenticated"`
+	PlayerData    struct {
+		Name       string `json:"name"`
+		CashAmount int    `json:"cashAmount"`
+	} `json:"playerData"`
 }
 
 func (a *API) authHandler(w http.ResponseWriter, r *http.Request) {
@@ -31,12 +34,26 @@ func (a *API) authHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	r.Body.Close()
 
-	fmt.Println("request data:", data)
-
-	// Assemble response.
-	resp := authResponse{
-		ValidToken: "abcd",
+	// Validate received token.
+	if !a.playersProc.PlayerExists(data.Token) {
+		respond("auth", authResponse{
+			Authenticated: false,
+		}, "ok", http.StatusOK, w)
+		return
 	}
 
-	respond("results", resp, "ok", http.StatusOK, w)
+	playerData, playerDataErr := a.playersProc.GetPlayer(data.Token)
+	if playerDataErr != nil {
+		respond("auth", nil, "failed to get player data: "+playerDataErr.Error(), http.StatusBadRequest, w)
+		return
+	}
+
+	resp := authResponse{
+		Authenticated: true,
+	}
+
+	resp.PlayerData.Name = playerData.Name
+	resp.PlayerData.CashAmount = playerData.CashAmount
+
+	respond("auth", resp, "ok", http.StatusOK, w)
 }

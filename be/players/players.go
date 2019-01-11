@@ -1,0 +1,56 @@
+package players
+
+import "errors"
+
+// Player contains single player's data.
+type Player struct {
+	Name       string
+	CashAmount int
+}
+
+// Players contains players data.
+type Players struct {
+	initialAmount int
+	players       map[string]Player
+}
+
+// New returns new Players instance.
+func New(initialAmount int) *Players {
+	return &Players{
+		initialAmount: initialAmount,
+		players:       make(map[string]Player),
+	}
+}
+
+// PlayerExists determines whether a player identified by the passed token
+// exists.
+func (p *Players) PlayerExists(token string) bool {
+	_, e := p.players[token]
+	return e
+}
+
+// AddPlayer adds a new player with the passed parameters and returns the
+// corresponding identification token.
+func (p *Players) AddPlayer(name string) (string, error) {
+	token, tokenErr := randomHex(16)
+	if tokenErr != nil {
+		return "", tokenErr
+	}
+
+	p.players[token] = Player{
+		Name:       name,
+		CashAmount: p.initialAmount,
+	}
+
+	return token, nil
+}
+
+// GetPlayer returns player data identified by the passed token.
+func (p *Players) GetPlayer(token string) (Player, error) {
+	player, e := p.players[token]
+	if !e {
+		return Player{}, errors.New("Invalid token provided")
+	}
+
+	return player, nil
+}
