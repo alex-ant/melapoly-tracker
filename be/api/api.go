@@ -33,7 +33,7 @@ func (a *API) defineMux() {
 
 	a.mux.Get("/player/:token", http.HandlerFunc(a.authHandler))
 
-	a.mux.Get("/players", http.HandlerFunc(a.getAllPlayersHandler))
+	a.mux.Get("/players/:token", http.HandlerFunc(a.getAllPlayersHandler))
 
 	a.mux.Post("/cash/add", http.HandlerFunc(a.addCashHandler))
 	a.mux.Options("/cash/add", http.HandlerFunc(a.corsRequestHandler))

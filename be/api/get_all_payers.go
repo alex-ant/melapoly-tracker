@@ -2,6 +2,8 @@ package api
 
 import (
 	"net/http"
+
+	"github.com/go-zoo/bone"
 )
 
 type playerData struct {
@@ -9,9 +11,20 @@ type playerData struct {
 	Name       string `json:"name"`
 	CashAmount int    `json:"cashAmount"`
 	IsAdmin    bool   `json:"isAdmin"`
+	You        bool   `json:"you"`
 }
 
 func (a *API) getAllPlayersHandler(w http.ResponseWriter, r *http.Request) {
+	// Retrieve request data.
+	token := bone.GetValue(r, "token")
+
+	// Get requester's info.
+	currentPlayer, currentPlayerErr := a.playersProc.GetPlayer(token)
+	if currentPlayerErr != nil {
+		respond("auth", nil, "failed to get player data: "+currentPlayerErr.Error(), http.StatusBadRequest, w)
+		return
+	}
+
 	var res []playerData
 
 	for _, id := range a.playersProc.GetAllIDs() {
@@ -32,6 +45,7 @@ func (a *API) getAllPlayersHandler(w http.ResponseWriter, r *http.Request) {
 			Name:       player.Name,
 			CashAmount: player.CashAmount,
 			IsAdmin:    isAdmin,
+			You:        player.ID == currentPlayer.ID,
 		})
 	}
 
