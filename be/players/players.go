@@ -16,14 +16,16 @@ type Player struct {
 type Players struct {
 	mu            sync.Mutex
 	initialAmount int
+	salary        int
 	players       map[string]Player
 }
 
 // New returns new Players instance.
-func New(initialAmount int) *Players {
+func New(initialAmount, salary int) *Players {
 	return &Players{
 		initialAmount: initialAmount,
 		players:       make(map[string]Player),
+		salary:        salary,
 	}
 }
 

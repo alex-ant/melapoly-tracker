@@ -28,7 +28,7 @@ func shutdown() {
 
 func main() {
 	// Initialize players processor.
-	playersProc = players.New(*params.InitialAmount)
+	playersProc = players.New(*params.InitialAmount, *params.Salary)
 
 	// Initialize API HTTP server.
 	apiServer = api.New(*params.APIPort, playersProc)

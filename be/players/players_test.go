@@ -7,17 +7,18 @@ import (
 )
 
 func TestPlayerExists(t *testing.T) {
-	p := New(10)
+	p := New(10, 5)
 	p.players["token1"] = Player{}
 
 	require.True(t, p.PlayerExists("token1"), "Invalid player exists determination")
 	require.False(t, p.PlayerExists("token2"), "Invalid player exists determination")
 
 	require.Equal(t, 10, p.initialAmount, "Invalid inital amount has been set to players processor")
+	require.Equal(t, 5, p.salary, "Invalid salary has been set to players processor")
 }
 
 func TestAddPlayer(t *testing.T) {
-	p := New(10)
+	p := New(10, 5)
 
 	token, err := p.AddPlayer("John")
 	require.NoError(t, err, "Failed to add a new player")
@@ -26,7 +27,7 @@ func TestAddPlayer(t *testing.T) {
 }
 
 func TestGetPlayer(t *testing.T) {
-	p := New(10)
+	p := New(10, 5)
 
 	token, err := p.AddPlayer("John")
 	require.NoError(t, err, "Failed to add a new player")
