@@ -6,6 +6,21 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func TestAddSalary(t *testing.T) {
+	p := New(10, 5)
+	p.players["token1"] = Player{
+		ID:         "id1",
+		CashAmount: 100,
+	}
+
+	err := p.AddSalary("id1")
+	require.NoError(t, err, "Failed to add salary")
+	require.Equal(t, 105, p.players["token1"].CashAmount, "Invalid salary amount has been added")
+
+	err2 := p.AddSalary("id2")
+	require.Error(t, err2, "Error determinig non-existent player")
+}
+
 func TestAddCash(t *testing.T) {
 	p := New(10, 5)
 	p.players["token1"] = Player{
