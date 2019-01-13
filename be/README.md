@@ -6,6 +6,7 @@
 |:----|:----|:---|:---|
 |api-port|API_PORT|30303|HTTP API port number|
 |initial-amount|INITIAL_AMOUNT|12000|Initial amount of money for each player|
+|salary|SALARY|2000|Salary being issued every loop|
 
 ### Running tests
 
