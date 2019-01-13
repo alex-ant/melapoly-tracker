@@ -1,14 +1,10 @@
 package api
 
 import (
-	"encoding/json"
-	"io/ioutil"
 	"net/http"
-)
 
-type authRequest struct {
-	Token string `json:"token"`
-}
+	"github.com/go-zoo/bone"
+)
 
 type authResponse struct {
 	Authenticated bool `json:"authenticated"`
@@ -22,29 +18,17 @@ type authResponse struct {
 
 func (a *API) authHandler(w http.ResponseWriter, r *http.Request) {
 	// Retrieve request data.
-	body, bodyErr := ioutil.ReadAll(r.Body)
-	if bodyErr != nil {
-		respond("", nil, "failed to read request body", http.StatusBadRequest, w)
-		return
-	}
-
-	var data authRequest
-	dataErr := json.Unmarshal(body, &data)
-	if dataErr != nil {
-		respond("", nil, "failed to unmarshal request body", http.StatusBadRequest, w)
-		return
-	}
-	r.Body.Close()
+	token := bone.GetValue(r, "token")
 
 	// Validate received token.
-	if !a.playersProc.PlayerExists(data.Token) {
+	if !a.playersProc.PlayerExists(token) {
 		respond("auth", authResponse{
 			Authenticated: false,
 		}, "ok", http.StatusOK, w)
 		return
 	}
 
-	playerData, playerDataErr := a.playersProc.GetPlayer(data.Token)
+	playerData, playerDataErr := a.playersProc.GetPlayer(token)
 	if playerDataErr != nil {
 		respond("auth", nil, "failed to get player data: "+playerDataErr.Error(), http.StatusBadRequest, w)
 		return

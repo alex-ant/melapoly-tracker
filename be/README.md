@@ -15,7 +15,7 @@
 ### API
 
 * [POST /player](#post_player) - Register a new player.
-* [POST /auth](#post_auth) - Validate player authentication and get player info.
+* [GET /player/:token](#get_player) - Get player info.
 * [POST /cash/add](#post_cash_add) - Add cash for the player.
 * [POST /salary/add](#post_salary_add) - Add salary for the player.
 
@@ -43,16 +43,14 @@ Success response:
 }
 ```
 
-#### <a name="post_auth"></a>POST /auth
+#### <a name="get_player"></a>GET /player/:token
 
-*Validate player authentication and get player info.*
+*Get player info.*
 
 Sample request:
 
 ```
-curl 'http://localhost:30303/auth' -d '{
-  "token": "9f4c9ed9440d34f4a5bec7b901401429"
-}'
+curl 'http://localhost:30303/player/9f4c9ed9440d34f4a5bec7b901401429'
 ```
 
 Success response:

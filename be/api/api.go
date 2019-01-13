@@ -28,11 +28,10 @@ func New(port int, playersProc *players.Players) *API {
 func (a *API) defineMux() {
 	a.mux = bone.New()
 
-	a.mux.Post("/auth", http.HandlerFunc(a.authHandler))
-	a.mux.Options("/auth", http.HandlerFunc(a.corsRequestHandler))
-
 	a.mux.Post("/player", http.HandlerFunc(a.addPlayerHandler))
 	a.mux.Options("/player", http.HandlerFunc(a.corsRequestHandler))
+
+	a.mux.Get("/player/:token", http.HandlerFunc(a.authHandler))
 
 	a.mux.Post("/cash/add", http.HandlerFunc(a.addCashHandler))
 	a.mux.Options("/cash/add", http.HandlerFunc(a.corsRequestHandler))
