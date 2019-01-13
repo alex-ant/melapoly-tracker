@@ -6,6 +6,43 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func TestValidID(t *testing.T) {
+	p := New(10, 5)
+	p.players["token1"] = Player{
+		ID: "id1",
+	}
+
+	require.True(t, p.validID("id1"), "Failed to confirm valid player ID")
+	require.False(t, p.validID("invalidid"), "Failed to confirm invalid player ID")
+}
+
+func TestIsAdmin(t *testing.T) {
+	// test valid admin user
+	p := New(10, 5)
+	p.players["token1"] = Player{
+		ID: "id1",
+	}
+
+	p.adminPlayer = "id1"
+
+	res, resErr := p.IsAdmin("id1")
+	require.NoError(t, resErr, "Error determinig whether a user is admin")
+	require.True(t, res, "Failed to confirm admin player")
+
+	// test user which is not the admin
+	p.players["token2"] = Player{
+		ID: "id2",
+	}
+
+	res2, res2Err := p.IsAdmin("id2")
+	require.NoError(t, res2Err, "Error determinig whether a user is admin")
+	require.False(t, res2, "Failed to confirm non-admin player")
+
+	// test non-existent user
+	_, res3Err := p.IsAdmin("id3")
+	require.Error(t, res3Err, "Error determinig non-existing user")
+}
+
 func TestPlayerExists(t *testing.T) {
 	p := New(10, 5)
 	p.players["token1"] = Player{}

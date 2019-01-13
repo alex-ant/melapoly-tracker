@@ -18,6 +18,7 @@ type Players struct {
 	initialAmount int
 	salary        int
 	players       map[string]Player
+	adminPlayer   string
 }
 
 // New returns new Players instance.
@@ -61,6 +62,10 @@ func (p *Players) AddPlayer(name string) (string, error) {
 		CashAmount: p.initialAmount,
 	}
 
+	if p.adminPlayer == "" {
+		p.adminPlayer = id
+	}
+
 	return token, nil
 }
 
@@ -75,4 +80,26 @@ func (p *Players) GetPlayer(token string) (Player, error) {
 	}
 
 	return player, nil
+}
+
+func (p *Players) validID(id string) bool {
+	for _, player := range p.players {
+		if player.ID == id {
+			return true
+		}
+	}
+
+	return false
+}
+
+// IsAdmin tells whether a player identified by the passed ID is admin.
+func (p *Players) IsAdmin(id string) (bool, error) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+
+	if !p.validID(id) {
+		return false, errors.New("Invalid player ID provided")
+	}
+
+	return p.adminPlayer == id, nil
 }
