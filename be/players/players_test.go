@@ -6,6 +6,39 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func TestGetPlayerByID(t *testing.T) {
+	p := New(10, 5)
+	p.players["token1"] = Player{
+		ID:         "id1",
+		Name:       "John",
+		CashAmount: 777,
+	}
+
+	player, playerErr := p.GetPlayerByID("id1")
+	require.NoError(t, playerErr, "Failed to get player by ID")
+	require.Equal(t, Player{
+		ID:         "id1",
+		Name:       "John",
+		CashAmount: 777,
+	}, player, "Invalid player data received")
+
+	_, playerErr2 := p.GetPlayerByID("id2")
+	require.Error(t, playerErr2, "Error determinig non-existent player")
+}
+
+func TestGetAllIDs(t *testing.T) {
+	p := New(10, 5)
+	p.players["token1"] = Player{
+		ID: "id1",
+	}
+	p.players["token2"] = Player{
+		ID: "id2",
+	}
+
+	ids := p.GetAllIDs()
+	require.Equal(t, []string{"id1", "id2"}, ids, "Invalid set of player IDs received")
+}
+
 func TestDeductCash(t *testing.T) {
 	p := New(10, 5)
 	p.players["token1"] = Player{

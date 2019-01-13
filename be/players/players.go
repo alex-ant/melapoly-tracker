@@ -2,6 +2,7 @@ package players
 
 import (
 	"errors"
+	"sort"
 	"sync"
 )
 
@@ -28,6 +29,22 @@ func New(initialAmount, salary int) *Players {
 		players:       make(map[string]Player),
 		salary:        salary,
 	}
+}
+
+// GetAllIDs returns ID of all the players.
+func (p *Players) GetAllIDs() []string {
+	var res []string
+
+	p.mu.Lock()
+	defer p.mu.Unlock()
+
+	for _, player := range p.players {
+		res = append(res, player.ID)
+	}
+
+	sort.Strings(res)
+
+	return res
 }
 
 // PlayerExists determines whether a player identified by the passed token
@@ -80,6 +97,16 @@ func (p *Players) GetPlayer(token string) (Player, error) {
 	}
 
 	return player, nil
+}
+
+// GetPlayerByID returns player data identified by the passed ID.
+func (p *Players) GetPlayerByID(id string) (Player, error) {
+	token, tokenErr := p.getTokenByID(id)
+	if tokenErr != nil {
+		return Player{}, tokenErr
+	}
+
+	return p.GetPlayer(token)
 }
 
 // IsAdmin tells whether a player identified by the passed ID is admin.

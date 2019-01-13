@@ -16,6 +16,7 @@
 
 * [POST /player](#post_player) - Register a new player.
 * [GET /player/:token](#get_player) - Get player info.
+* [GET /players](#get_players) - Get all players.
 * [POST /cash/add](#post_cash_add) - Add cash for the player.
 * [POST /salary/add](#post_salary_add) - Add salary for the player.
 * [POST /cash/deduct](#post_cash_deduct) - Deduct cash from the player.
@@ -69,6 +70,39 @@ Success response:
   },
   "msg": "ok",
   "status": 200
+}
+```
+
+#### <a name="get_players"></a>GET /players
+
+*Get all players.*
+
+Sample request:
+
+```
+curl 'http://localhost:30303/players'
+```
+
+Success response:
+
+```json
+{
+    "msg": "ok",
+    "players": [
+        {
+            "id": "b6d984aff34a602f967a06479e820524",
+            "name": "John",
+            "cashAmount": 12000,
+            "isAdmin": false
+        },
+        {
+            "id": "e760bd6e0feadd8f0d45a0ca27a26a38",
+            "name": "Sarah",
+            "cashAmount": 11334,
+            "isAdmin": true
+        }
+    ],
+    "status": 200
 }
 ```
 
