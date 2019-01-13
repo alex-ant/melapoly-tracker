@@ -16,6 +16,7 @@ type authResponse struct {
 		ID         string `json:"id"`
 		Name       string `json:"name"`
 		CashAmount int    `json:"cashAmount"`
+		IsAdmin    bool   `json:"isAdmin"`
 	} `json:"playerData"`
 }
 
@@ -49,6 +50,12 @@ func (a *API) authHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	isAdmin, isAdminErr := a.playersProc.IsAdmin(playerData.ID)
+	if isAdminErr != nil {
+		respond("auth", nil, "failed to determine if the player is admin: "+isAdminErr.Error(), http.StatusInternalServerError, w)
+		return
+	}
+
 	resp := authResponse{
 		Authenticated: true,
 	}
@@ -56,6 +63,7 @@ func (a *API) authHandler(w http.ResponseWriter, r *http.Request) {
 	resp.PlayerData.ID = playerData.ID
 	resp.PlayerData.Name = playerData.Name
 	resp.PlayerData.CashAmount = playerData.CashAmount
+	resp.PlayerData.IsAdmin = isAdmin
 
 	respond("auth", resp, "ok", http.StatusOK, w)
 }

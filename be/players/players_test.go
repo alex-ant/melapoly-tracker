@@ -61,6 +61,7 @@ func TestAddPlayer(t *testing.T) {
 	require.NoError(t, err, "Failed to add a new player")
 	require.True(t, p.PlayerExists(token), "A player hasn't been added")
 	require.Equal(t, 10, p.players[token].CashAmount, "Invalid initial amount has been assigned to a new player")
+	require.Equal(t, p.adminPlayer, p.players[token].ID, "Failed to assign admin player")
 }
 
 func TestGetPlayer(t *testing.T) {
