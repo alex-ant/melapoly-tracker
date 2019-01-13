@@ -34,6 +34,7 @@ Success response:
   "auth": {
     "authenticated": true,
     "playerData": {
+      "id": "c8c66a8acc1153edb9635a26d5940510",
       "name": "John",
       "cashAmount": 12000
     }

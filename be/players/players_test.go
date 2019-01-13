@@ -37,6 +37,7 @@ func TestGetPlayer(t *testing.T) {
 	require.Equal(t, Player{
 		Name:       "John",
 		CashAmount: 10,
+		ID:         p.players[token].ID,
 	}, player, "Invalid player data received")
 
 	_, expectedErr := p.GetPlayer("invalid-token")

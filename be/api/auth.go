@@ -13,6 +13,7 @@ type authRequest struct {
 type authResponse struct {
 	Authenticated bool `json:"authenticated"`
 	PlayerData    struct {
+		ID         string `json:"id"`
 		Name       string `json:"name"`
 		CashAmount int    `json:"cashAmount"`
 	} `json:"playerData"`
@@ -52,6 +53,7 @@ func (a *API) authHandler(w http.ResponseWriter, r *http.Request) {
 		Authenticated: true,
 	}
 
+	resp.PlayerData.ID = playerData.ID
 	resp.PlayerData.Name = playerData.Name
 	resp.PlayerData.CashAmount = playerData.CashAmount
 

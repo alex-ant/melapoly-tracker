@@ -6,6 +6,7 @@ import "errors"
 type Player struct {
 	Name       string
 	CashAmount int
+	ID         string
 }
 
 // Players contains players data.
@@ -37,7 +38,13 @@ func (p *Players) AddPlayer(name string) (string, error) {
 		return "", tokenErr
 	}
 
+	id, idErr := randomHex(16)
+	if idErr != nil {
+		return "", idErr
+	}
+
 	p.players[token] = Player{
+		ID:         id,
 		Name:       name,
 		CashAmount: p.initialAmount,
 	}
