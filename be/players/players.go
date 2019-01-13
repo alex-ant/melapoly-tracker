@@ -1,6 +1,9 @@
 package players
 
-import "errors"
+import (
+	"errors"
+	"sync"
+)
 
 // Player contains single player's data.
 type Player struct {
@@ -11,6 +14,7 @@ type Player struct {
 
 // Players contains players data.
 type Players struct {
+	mu            sync.Mutex
 	initialAmount int
 	players       map[string]Player
 }
@@ -26,6 +30,9 @@ func New(initialAmount int) *Players {
 // PlayerExists determines whether a player identified by the passed token
 // exists.
 func (p *Players) PlayerExists(token string) bool {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+
 	_, e := p.players[token]
 	return e
 }
@@ -43,6 +50,9 @@ func (p *Players) AddPlayer(name string) (string, error) {
 		return "", idErr
 	}
 
+	p.mu.Lock()
+	defer p.mu.Unlock()
+
 	p.players[token] = Player{
 		ID:         id,
 		Name:       name,
@@ -54,6 +64,9 @@ func (p *Players) AddPlayer(name string) (string, error) {
 
 // GetPlayer returns player data identified by the passed token.
 func (p *Players) GetPlayer(token string) (Player, error) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+
 	player, e := p.players[token]
 	if !e {
 		return Player{}, errors.New("Invalid token provided")

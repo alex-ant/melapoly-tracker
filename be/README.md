@@ -13,7 +13,32 @@
 
 ### API
 
+* [POST /player](#post_player) - Register a new player.
 * [POST /auth](#post_auth) - Validate player authentication and get player info.
+
+#### <a name="post_player"></a>POST /player
+
+*Register a new player.*
+
+Sample request:
+
+```
+curl 'http://localhost:30303/player' -d '{
+  "name": "John"
+}'
+```
+
+Success response:
+
+```json
+{
+    "msg": "ok",
+    "player": {
+        "token": "9f4c9ed9440d34f4a5bec7b901401429"
+    },
+    "status": 200
+}
+```
 
 #### <a name="post_auth"></a>POST /auth
 
@@ -23,7 +48,7 @@ Sample request:
 
 ```
 curl 'http://localhost:30303/auth' -d '{
-  "token": "5aa50b703a729598d3669616ecf08254"
+  "token": "9f4c9ed9440d34f4a5bec7b901401429"
 }'
 ```
 
