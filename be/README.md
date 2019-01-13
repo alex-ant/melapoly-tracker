@@ -20,6 +20,7 @@
 * [POST /cash/add](#post_cash_add) - Add cash for the player.
 * [POST /salary/add](#post_salary_add) - Add salary for the player.
 * [POST /cash/deduct](#post_cash_deduct) - Deduct cash from the player.
+* [POST /cash/transfer](#post_cash_transfer) - Transfer cash between players.
 
 #### <a name="post_player"></a>POST /player
 
@@ -180,4 +181,28 @@ Success response:
 }
 ```
 
+#### <a name="post_cash_transfer"></a>POST /cash/transfer
 
+*Transfer cash between players.*
+
+Only admin player can perform this action. Returns an error if the sender has an insufficient amount of cash available.
+
+Sample request:
+
+```
+curl 'http://localhost:30303/cash/add' -d '{
+  "token": "f177bf59f6a7d79b33c29dd0bb145d4b",
+  "idTo": "996e1d8a3e0700e55ad981dcdfb40c9d",
+  "idFrom": "fb05d539204023d3cd765e7a6ff06729",
+  "amount": 200
+}'
+```
+
+Success response:
+
+```json
+{
+    "msg": "ok",
+    "status": 200
+}
+```

@@ -58,3 +58,38 @@ func (p *Players) DeductCash(id string, amount int) error {
 
 	return nil
 }
+
+// TransferCash sends cash from one player to another. An error is thrown if
+// the sender has insufficient amount of cash available.
+func (p *Players) TransferCash(fromID, toID string, amount int) error {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+
+	tokenFrom, tokenFromErr := p.getTokenByID(fromID)
+	if tokenFromErr != nil {
+		return tokenFromErr
+	}
+
+	tokenTo, tokenToErr := p.getTokenByID(toID)
+	if tokenToErr != nil {
+		return tokenToErr
+	}
+
+	playerFrom := p.players[tokenFrom]
+	playerTo := p.players[tokenTo]
+
+	// Return an error if the player has insufficient amount of cash available.
+	if playerFrom.CashAmount < amount {
+		return errors.New("insufficient amount of cash available")
+	}
+
+	// Deduct cash from sender.
+	playerFrom.CashAmount -= amount
+	p.players[tokenFrom] = playerFrom
+
+	// Add cash to receiver.
+	playerTo.CashAmount += amount
+	p.players[tokenTo] = playerTo
+
+	return nil
+}
