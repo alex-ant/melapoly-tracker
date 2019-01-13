@@ -33,6 +33,9 @@ func (a *API) defineMux() {
 
 	a.mux.Post("/player", http.HandlerFunc(a.addPlayerHandler))
 	a.mux.Options("/player", http.HandlerFunc(a.corsRequestHandler))
+
+	a.mux.Post("/cash/add", http.HandlerFunc(a.addCashHandler))
+	a.mux.Options("/cash/add", http.HandlerFunc(a.corsRequestHandler))
 }
 
 // Start starts the HTTP server.

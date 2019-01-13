@@ -6,6 +6,35 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func TestAddCash(t *testing.T) {
+	p := New(10, 5)
+	p.players["token1"] = Player{
+		ID:         "id1",
+		CashAmount: 100,
+	}
+
+	err := p.AddCash("id1", 30)
+	require.NoError(t, err, "Failed to add cash")
+	require.Equal(t, 130, p.players["token1"].CashAmount, "Invalid cash amount has been added")
+
+	err2 := p.AddCash("id2", 30)
+	require.Error(t, err2, "Error determinig non-existent player")
+}
+
+func TestGetTokenByID(t *testing.T) {
+	p := New(10, 5)
+	p.players["token1"] = Player{
+		ID: "id1",
+	}
+
+	res, resErr := p.getTokenByID("id1")
+	require.NoError(t, resErr, "Error getting player token by ID")
+	require.Equal(t, "token1", res, "Invalid player token received")
+
+	_, res2Err := p.getTokenByID("id2")
+	require.Error(t, res2Err, "Error determinig non-existent player")
+}
+
 func TestValidID(t *testing.T) {
 	p := New(10, 5)
 	p.players["token1"] = Player{

@@ -16,6 +16,7 @@
 
 * [POST /player](#post_player) - Register a new player.
 * [POST /auth](#post_auth) - Validate player authentication and get player info.
+* [POST /cash/add](#post_cash_add) - Add cash for the player.
 
 #### <a name="post_player"></a>POST /player
 
@@ -68,5 +69,28 @@ Success response:
   },
   "msg": "ok",
   "status": 200
+}
+```
+
+#### <a name="post_cash_add"></a>POST /cash/add
+
+*Add cash for the player.*
+
+Sample request:
+
+```
+curl 'http://localhost:30303/cash/add' -d '{
+  "token": "fab0acf89168b3f7a883fc4e63ae8918",
+  "id": "da54ebf406e323d7a5948846dd57357b",
+  "amount": 100
+}'
+```
+
+Success response:
+
+```json
+{
+    "msg": "ok",
+    "status": 200
 }
 ```

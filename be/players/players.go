@@ -82,16 +82,6 @@ func (p *Players) GetPlayer(token string) (Player, error) {
 	return player, nil
 }
 
-func (p *Players) validID(id string) bool {
-	for _, player := range p.players {
-		if player.ID == id {
-			return true
-		}
-	}
-
-	return false
-}
-
 // IsAdmin tells whether a player identified by the passed ID is admin.
 func (p *Players) IsAdmin(id string) (bool, error) {
 	p.mu.Lock()
