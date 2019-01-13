@@ -38,6 +38,9 @@ func (a *API) defineMux() {
 
 	a.mux.Post("/salary/add", http.HandlerFunc(a.addSalaryHandler))
 	a.mux.Options("/salary/add", http.HandlerFunc(a.corsRequestHandler))
+
+	a.mux.Post("/cash/deduct", http.HandlerFunc(a.deductCashHandler))
+	a.mux.Options("/cash/deduct", http.HandlerFunc(a.corsRequestHandler))
 }
 
 // Start starts the HTTP server.

@@ -18,6 +18,7 @@
 * [GET /player/:token](#get_player) - Get player info.
 * [POST /cash/add](#post_cash_add) - Add cash for the player.
 * [POST /salary/add](#post_salary_add) - Add salary for the player.
+* [POST /cash/deduct](#post_cash_deduct) - Deduct cash from the player.
 
 #### <a name="post_player"></a>POST /player
 
@@ -119,3 +120,30 @@ Success response:
     "status": 200
 }
 ```
+
+#### <a name="post_cash_deduct"></a>POST /cash/deduct
+
+*Deduct cash from the player.*
+
+Only admin player can perform this action. Returns an error if insufficient amount of cash is available.
+
+Sample request:
+
+```
+curl 'http://localhost:30303/cash/add' -d '{
+  "token": "fab0acf89168b3f7a883fc4e63ae8918",
+  "id": "da54ebf406e323d7a5948846dd57357b",
+  "amount": 100
+}'
+```
+
+Success response:
+
+```json
+{
+    "msg": "ok",
+    "status": 200
+}
+```
+
+
