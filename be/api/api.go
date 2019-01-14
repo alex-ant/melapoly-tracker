@@ -54,6 +54,7 @@ func (a *API) defineMux() error {
 		setCORSHeaders(w)
 		a.getAllPlayersHandler(w, r)
 	}))
+	a.mux.Options("/players", http.HandlerFunc(a.corsRequestHandler))
 
 	a.mux.Get("/game/info", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		setCORSHeaders(w)
