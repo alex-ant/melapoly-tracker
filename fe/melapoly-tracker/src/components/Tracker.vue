@@ -14,7 +14,21 @@
           <button type="button" v-on:click="registerPlayer()">MOVE</button>
         </div>
 
-        
+        <div v-if="validToken">
+          <table>
+            <tr>
+              <td>Name</td>
+              <td>Cash</td>
+              <td>Admin</td>
+            </tr>
+            <tr v-for="player in playersData" v-bind:key="player.id">
+              <td>{{player.name}}</td>
+              <td>{{player.cashAmount}}</td>
+              <td>{{player.isAdmin}}</td>
+            </tr>
+          </table>
+        </div>
+
         <br/>
         <br/>
 
@@ -29,19 +43,21 @@ import axios from 'axios';
 
 import VueCookies from 'vue-cookies';
 
-let beURL = 'http://localhost:30303';
+const beURL = 'http://localhost:30303';
+const tokenCookie = 'token';
 
 export default {
   name: 'Tracker',
   data () {
     return {
       validToken: false,
-      regName: ""
+      regName: "",
+      playersData: []
     }
   },
   methods: {
     checkToken: function() {
-      axios.get(beURL + '/player/'+VueCookies.get('token'))
+      axios.get(beURL + '/player/'+VueCookies.get(tokenCookie))
       .then(response => {
         this.validToken = response.data.auth.authenticated;
       })
@@ -53,8 +69,7 @@ export default {
       let a = axios.get(beURL + '/lp?timeout=30&category=update-players');
       a.then(response => {
           if ("events" in response.data) {
-            console.log("update user data");
-            ///
+            this.getPlayers();
           }
 
           this.playersDataUpdateLP();
@@ -68,8 +83,21 @@ export default {
         name: this.regName
       })
       .then(response => {
-        VueCookies.set('token', response.data.player.token);
+        VueCookies.set(tokenCookie, response.data.player.token);
         this.validToken = true;
+      })
+      .catch(error => {
+        console.log(error);
+      })
+    },
+    getPlayers: function() {
+      axios.get(beURL + '/players', {
+        headers: {
+          'X-Token': VueCookies.get(tokenCookie)
+        }
+      })
+      .then(response => {
+        this.playersData = response.data.players;
       })
       .catch(error => {
         console.log(error);
