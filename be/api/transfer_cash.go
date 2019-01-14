@@ -53,5 +53,7 @@ func (a *API) transferCashHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	a.publishUpdatePlayers()
+
 	respond("", nil, "ok", http.StatusOK, w)
 }

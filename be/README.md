@@ -17,6 +17,7 @@
 * [POST /player](#post_player) - Register a new player.
 * [GET /player/:token](#get_player) - Get player info.
 * [GET /players/:token](#get_players) - Get all players.
+* [GET /lp](#get_update_players) - Longpolling endpoint responding once any user's data has been updated.
 * [POST /cash/add](#post_cash_add) - Add cash for the player.
 * [POST /salary/add](#post_salary_add) - Add salary for the player.
 * [POST /cash/deduct](#post_cash_deduct) - Deduct cash from the player.
@@ -106,6 +107,43 @@ Success response:
         }
     ],
     "status": 200
+}
+```
+
+#### <a name="get_update_players"></a>GET /lp
+
+*Longpolling endpoint responding once any user's data has been updated.*
+
+`timeout <= 120` and `category = update-players` parameters are required.
+
+Sample request:
+
+```
+curl 'http://localhost:30303/lp?timeout=30&category=update-players'
+```
+
+Response in case of an update event:
+
+```json
+{
+    "events": [
+        {
+            "timestamp": 1547460400644,
+            "category": "update-players",
+            "data": {
+                "updated": 1547460400644011000
+            }
+        }
+    ]
+}
+```
+
+Response if no updates have been made before the timeout:
+
+```json
+{
+    "timeout": "no events before timeout",
+    "timestamp": 1547460599662
 }
 ```
 

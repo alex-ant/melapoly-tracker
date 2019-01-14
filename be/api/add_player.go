@@ -47,5 +47,7 @@ func (a *API) addPlayerHandler(w http.ResponseWriter, r *http.Request) {
 		Token: token,
 	}
 
+	a.publishUpdatePlayers()
+
 	respond("player", resp, "ok", http.StatusOK, w)
 }

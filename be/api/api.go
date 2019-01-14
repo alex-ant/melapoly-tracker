@@ -7,6 +7,7 @@ import (
 
 	"github.com/alex-ant/melapoly-tracker/be/players"
 	"github.com/go-zoo/bone"
+	"github.com/jcuga/golongpoll"
 )
 
 // API contains HTTP server's settings.
@@ -15,6 +16,8 @@ type API struct {
 	listener    net.Listener
 	mux         *bone.Mux
 	playersProc *players.Players
+	lpManager   *golongpoll.LongpollManager
+	lpUpdatedTS int64
 }
 
 // New returns new API.
@@ -25,8 +28,16 @@ func New(port int, playersProc *players.Players) *API {
 	}
 }
 
-func (a *API) defineMux() {
+func (a *API) defineMux() error {
 	a.mux = bone.New()
+
+	var lpManagerErr error
+	a.lpManager, lpManagerErr = golongpoll.StartLongpoll(golongpoll.Options{})
+	if lpManagerErr != nil {
+		return lpManagerErr
+	}
+
+	a.mux.HandleFunc("/lp", a.lpManager.SubscriptionHandler)
 
 	a.mux.Post("/player", http.HandlerFunc(a.addPlayerHandler))
 	a.mux.Options("/player", http.HandlerFunc(a.corsRequestHandler))
@@ -46,11 +57,16 @@ func (a *API) defineMux() {
 
 	a.mux.Post("/cash/transfer", http.HandlerFunc(a.transferCashHandler))
 	a.mux.Options("/cash/transfer", http.HandlerFunc(a.corsRequestHandler))
+
+	return nil
 }
 
 // Start starts the HTTP server.
 func (a *API) Start() (err error) {
-	a.defineMux()
+	err = a.defineMux()
+	if err != nil {
+		return err
+	}
 
 	a.listener, err = net.Listen("tcp", ":"+strconv.Itoa(a.port))
 	if err != nil {
