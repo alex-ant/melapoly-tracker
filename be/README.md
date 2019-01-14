@@ -16,7 +16,7 @@
 
 * [POST /player](#post_player) - Register a new player.
 * [GET /player/:token](#get_player) - Get player info.
-* [GET /players/:token](#get_players) - Get all players.
+* [GET /players](#get_players) - Get all players.
 * [GET /lp](#get_update_players) - Longpolling endpoint responding once any user's data has been updated.
 * [GET /game/info](#get_game_info) - Get game info.
 * [POST /cash/add](#post_cash_add) - Add cash for the player.
@@ -76,14 +76,14 @@ Success response:
 }
 ```
 
-#### <a name="get_players"></a>GET /players/:token
+#### <a name="get_players"></a>GET /players
 
 *Get all players.*
 
 Sample request:
 
 ```
-curl 'http://localhost:30303/players/9f4c9ed9440d34f4a5bec7b901401429'
+curl -H 'X-Token: 9f4c9ed9440d34f4a5bec7b901401429' 'http://localhost:30303/players'
 ```
 
 Success response:

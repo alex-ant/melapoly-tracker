@@ -50,7 +50,7 @@ func (a *API) defineMux() error {
 		a.authHandler(w, r)
 	}))
 
-	a.mux.Get("/players/:token", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	a.mux.Get("/players", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		setCORSHeaders(w)
 		a.getAllPlayersHandler(w, r)
 	}))

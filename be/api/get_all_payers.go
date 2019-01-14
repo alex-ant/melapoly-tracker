@@ -2,8 +2,6 @@ package api
 
 import (
 	"net/http"
-
-	"github.com/go-zoo/bone"
 )
 
 type playerData struct {
@@ -16,7 +14,7 @@ type playerData struct {
 
 func (a *API) getAllPlayersHandler(w http.ResponseWriter, r *http.Request) {
 	// Retrieve request data.
-	token := bone.GetValue(r, "token")
+	token := r.Header.Get("X-Token")
 
 	// Get requester's info.
 	currentPlayer, currentPlayerErr := a.playersProc.GetPlayer(token)
