@@ -31,6 +31,16 @@ func New(initialAmount, salary int) *Players {
 	}
 }
 
+// InitialAmount returns the set initial amount.
+func (p *Players) InitialAmount() int {
+	return p.initialAmount
+}
+
+// Salary returns the set salary.
+func (p *Players) Salary() int {
+	return p.salary
+}
+
 // GetAllIDs returns ID of all the players.
 func (p *Players) GetAllIDs() []string {
 	var res []string

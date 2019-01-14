@@ -55,6 +55,11 @@ func (a *API) defineMux() error {
 		a.getAllPlayersHandler(w, r)
 	}))
 
+	a.mux.Get("/game/info", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		setCORSHeaders(w)
+		a.getGameInfoHandler(w, r)
+	}))
+
 	a.mux.Post("/cash/add", http.HandlerFunc(a.addCashHandler))
 	a.mux.Options("/cash/add", http.HandlerFunc(a.corsRequestHandler))
 

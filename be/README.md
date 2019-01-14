@@ -18,6 +18,7 @@
 * [GET /player/:token](#get_player) - Get player info.
 * [GET /players/:token](#get_players) - Get all players.
 * [GET /lp](#get_update_players) - Longpolling endpoint responding once any user's data has been updated.
+* [GET /game/info](#get_game_info) - Get game info.
 * [POST /cash/add](#post_cash_add) - Add cash for the player.
 * [POST /salary/add](#post_salary_add) - Add salary for the player.
 * [POST /cash/deduct](#post_cash_deduct) - Deduct cash from the player.
@@ -144,6 +145,29 @@ Response if no updates have been made before the timeout:
 {
     "timeout": "no events before timeout",
     "timestamp": 1547460599662
+}
+```
+
+#### <a name="get_game_info"></a>GET /game/info
+
+*Get game info.*
+
+Sample request:
+
+```
+curl 'http://localhost:30303/game/info'
+```
+
+Success response:
+
+```json
+{
+    "gameInfo": {
+        "initialAmount": 12000,
+        "salary": 2000
+    },
+    "msg": "ok",
+    "status": 200
 }
 ```
 
