@@ -15,6 +15,11 @@
         </div>
 
         <div v-if="validToken">
+          <div> 
+            Hello, {{currentPlayer.name}}!
+            €{{currentPlayer.cashAmount}}
+          </div>
+
           <table>
             <tr>
               <td>Name</td>
@@ -52,7 +57,8 @@ export default {
     return {
       validToken: false,
       regName: "",
-      playersData: []
+      playersData: [],
+      currentPlayer: {}
     }
   },
   methods: {
@@ -60,6 +66,9 @@ export default {
       axios.get(beURL + '/player/'+VueCookies.get(tokenCookie))
       .then(response => {
         this.validToken = response.data.auth.authenticated;
+        if (this.validToken === true) {
+          this.getPlayers();
+        }
       })
       .catch(error => {
         console.log(error);
@@ -98,6 +107,9 @@ export default {
       })
       .then(response => {
         this.playersData = response.data.players;
+        this.currentPlayer = this.playersData.filter(function(player) {
+          return player.you;
+        })[0];
       })
       .catch(error => {
         console.log(error);
@@ -114,7 +126,6 @@ export default {
         set(newValue){
             this.regName = newValue;
         }
-
     } 
   }
 }
