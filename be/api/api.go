@@ -37,14 +37,23 @@ func (a *API) defineMux() error {
 		return lpManagerErr
 	}
 
-	a.mux.HandleFunc("/lp", a.lpManager.SubscriptionHandler)
+	a.mux.HandleFunc("/lp", func(w http.ResponseWriter, r *http.Request) {
+		setCORSHeaders(w)
+		a.lpManager.SubscriptionHandler(w, r)
+	})
 
 	a.mux.Post("/player", http.HandlerFunc(a.addPlayerHandler))
 	a.mux.Options("/player", http.HandlerFunc(a.corsRequestHandler))
 
-	a.mux.Get("/player/:token", http.HandlerFunc(a.authHandler))
+	a.mux.Get("/player/:token", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		setCORSHeaders(w)
+		a.authHandler(w, r)
+	}))
 
-	a.mux.Get("/players/:token", http.HandlerFunc(a.getAllPlayersHandler))
+	a.mux.Get("/players/:token", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		setCORSHeaders(w)
+		a.getAllPlayersHandler(w, r)
+	}))
 
 	a.mux.Post("/cash/add", http.HandlerFunc(a.addCashHandler))
 	a.mux.Options("/cash/add", http.HandlerFunc(a.corsRequestHandler))
