@@ -11,7 +11,7 @@
         <div v-if="!validToken">
           <h2>Enter your name</h2> 
           <input type="text" v-model="regNameModel"><br/><br/>
-          <button type="button" v-on:click="registerPlayer()">MOVE</button>
+          <button type="button" v-on:click="registerPlayer()" class="action-button">MOVE</button>
         </div>
 
         <div v-else>
@@ -34,7 +34,7 @@
           </table>
 
           <br/>
-          <button type="button" v-on:click="removePlayer()">Leave</button>
+          <button type="button" v-on:click="removePlayer()" class="action-button">Leave</button>
         </div>
 
         <br/>
@@ -97,6 +97,7 @@ export default {
       .then(response => {
         VueCookies.set(tokenCookie, response.data.player.token);
         this.validToken = true;
+        this.regName = '';
       })
       .catch(error => {
         console.log(error);
@@ -152,5 +153,18 @@ export default {
 <style scoped>
 .current-user {
   font-weight: bold;
+}
+.action-button {
+  background-color: #217867;
+  border: 1px solid #000;
+  color: #FFF;
+  padding-right: 15px;
+  padding-left: 15px;
+  text-align: center;
+  display: inline-block;
+  font-size: 20px;
+  border-radius: 12px;
+  height: 40px;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 </style>
