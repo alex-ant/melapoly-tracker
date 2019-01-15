@@ -1,0 +1,14 @@
+version: '2'
+services:
+  fe:
+    image: melapoly_tracker_fe:latest
+    ports:
+      - "8080:80"
+  be:
+    image: melapoly_tracker_be:latest
+    environment:
+      - API_PORT=30303
+      - INITIAL_AMOUNT=12000
+      - SALARY=2000
+    ports:
+      - "30303:30303"
