@@ -2,11 +2,11 @@
   <div class="container-fluid">
     <img class="img-fluid" src="https://raw.githubusercontent.com/alex-ant/melapoly-tracker/master/fe/melapoly-tracker/img/logo.png" />
 
-    <br/>
+    <br/><br/>
 
     <div v-if="!validToken">
-      <h2>Enter your name</h2> 
-      <input type="text" v-model="regNameModel"><br/><br/>
+      <input placeholder="Enter your name" class="name-input" type="text" v-model="regNameModel">
+      <br/><br/>
       <button type="button" v-on:click="registerPlayer()" class="action-button">MOVE</button>
     </div>
 
@@ -151,13 +151,19 @@ export default {
   background-color: #217867;
   border: 1px solid #000;
   color: #FFF;
-  padding-right: 15px;
-  padding-left: 15px;
   text-align: center;
   display: inline-block;
-  font-size: 20px;
+  font-size: calc(100vw * 0.08);
   border-radius: 12px;
-  height: 40px;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  width: 100%;
+  height: calc(100vw * 0.2);
+}
+.name-input {
+  width: 100%;
+  border: 1px solid #000;
+  border-radius: 12px;
+  font-size: calc(100vw * 0.08);
+  height: calc(100vw * 0.2);
 }
 </style>
