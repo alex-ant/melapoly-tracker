@@ -14,7 +14,7 @@
           <button type="button" v-on:click="registerPlayer()">MOVE</button>
         </div>
 
-        <div v-if="validToken">
+        <div v-else>
           <div> 
             Hello, {{currentPlayer.name}}!
             €{{currentPlayer.cashAmount}}
@@ -26,12 +26,15 @@
               <td>Cash</td>
               <td>Admin</td>
             </tr>
-            <tr v-for="player in playersData" v-bind:key="player.id">
+            <tr v-for="player in playersData" v-bind:key="player.id" v-bind:class="{'current-user': player.id ===  currentPlayer.id}">
               <td>{{player.name}}</td>
               <td>{{player.cashAmount}}</td>
               <td>{{player.isAdmin}}</td>
             </tr>
           </table>
+
+          <br/>
+          <button type="button" v-on:click="removePlayer()">Leave</button>
         </div>
 
         <br/>
@@ -77,7 +80,7 @@ export default {
     playersDataUpdateLP: function() {
       let a = axios.get(beURL + '/lp?timeout=30&category=update-players');
       a.then(response => {
-          if ("events" in response.data) {
+          if (("events" in response.data) && (this.validToken === true)) {
             this.getPlayers();
           }
 
@@ -94,6 +97,21 @@ export default {
       .then(response => {
         VueCookies.set(tokenCookie, response.data.player.token);
         this.validToken = true;
+      })
+      .catch(error => {
+        console.log(error);
+      })
+    },
+    removePlayer: function() {
+      this.validToken = false;
+
+      axios.delete(beURL + '/player', {
+        headers: {
+          'X-Token': VueCookies.get(tokenCookie)
+        }
+      })
+      .then(response => {
+        VueCookies.remove(tokenCookie)
       })
       .catch(error => {
         console.log(error);
@@ -132,5 +150,7 @@ export default {
 </script>
 
 <style scoped>
-
+.current-user {
+  font-weight: bold;
+}
 </style>
