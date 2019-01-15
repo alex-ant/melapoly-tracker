@@ -36,14 +36,8 @@ func (a *API) transferCashHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	isAdmin, isAdminErr := a.playersProc.IsAdmin(reqPlayer.ID)
-	if isAdminErr != nil {
-		respond("", nil, "failed to determine if the requester is admin: "+isAdminErr.Error(), http.StatusInternalServerError, w)
-		return
-	}
-
-	if !isAdmin {
-		respond("", nil, "only admin can perform this action", http.StatusBadRequest, w)
+	if reqPlayer.ID != data.IDFrom {
+		respond("", nil, "only player sending cash can perform this action", http.StatusBadRequest, w)
 		return
 	}
 

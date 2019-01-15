@@ -271,7 +271,7 @@ Success response:
 
 *Transfer cash between players.*
 
-Only admin player can perform this action. Returns an error if the sender has an insufficient amount of cash available.
+Only player *sending* cash can perform this action. Returns an error if the sender has an insufficient amount of cash available.
 
 Sample request:
 
