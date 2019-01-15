@@ -96,6 +96,36 @@ func (p *Players) AddPlayer(name string) (string, error) {
 	return token, nil
 }
 
+// RemovePlayer deletes a user identified by the provided token and, if admin,
+// assigns a new random admin.
+func (p *Players) RemovePlayer(token string) error {
+	player, playerErr := p.GetPlayer(token)
+	if playerErr != nil {
+		return playerErr
+	}
+
+	isAdmin, isAdminErr := p.IsAdmin(player.ID)
+	if isAdminErr != nil {
+		return isAdminErr
+	}
+
+	p.mu.Lock()
+	defer p.mu.Unlock()
+
+	delete(p.players, token)
+
+	if isAdmin {
+		p.adminPlayer = ""
+
+		for _, player := range p.players {
+			p.adminPlayer = player.ID
+			break
+		}
+	}
+
+	return nil
+}
+
 // GetPlayer returns player data identified by the passed token.
 func (p *Players) GetPlayer(token string) (Player, error) {
 	p.mu.Lock()

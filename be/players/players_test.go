@@ -129,3 +129,30 @@ func TestGetPlayer(t *testing.T) {
 	_, expectedErr := p.GetPlayer("invalid-token")
 	require.Error(t, expectedErr, "No error on non-existent player data request")
 }
+
+func TestRemovePlayer(t *testing.T) {
+	p := New(10, 5)
+	p.players["token1"] = Player{
+		ID: "id1",
+	}
+	p.players["token2"] = Player{
+		ID: "id2",
+	}
+
+	p.adminPlayer = "id1"
+
+	err := p.RemovePlayer("token1")
+	require.NoError(t, err, "Failed to remove player")
+	_, ok := p.players["token1"]
+	require.False(t, ok, "The player hasn't been removed")
+	require.Equal(t, "id2", p.adminPlayer, "New admin hasn't been assigned")
+
+	err = p.RemovePlayer("token2")
+	require.NoError(t, err, "Failed to remove player")
+	_, ok = p.players["token2"]
+	require.False(t, ok, "The player hasn't been removed")
+	require.Equal(t, "", p.adminPlayer, "Admin ID hasn't been removed")
+
+	err = p.RemovePlayer("token3")
+	require.Error(t, err, "Error determinig non-existing user")
+}

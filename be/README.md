@@ -17,6 +17,7 @@
 * [POST /player](#post_player) - Register a new player.
 * [GET /player/:token](#get_player) - Get player info.
 * [GET /players](#get_players) - Get all players.
+* [DELETE /player](#delete_player) - Remove player.
 * [GET /lp](#get_update_players) - Longpolling endpoint responding once any user's data has been updated.
 * [GET /game/info](#get_game_info) - Get game info.
 * [POST /cash/add](#post_cash_add) - Add cash for the player.
@@ -107,6 +108,27 @@ Success response:
             "you": false
         }
     ],
+    "status": 200
+}
+```
+
+#### <a name="delete_player"></a>DELETE /player
+
+*Remove player.*
+
+The endpoint assigns a new random admin if the removed player was one.
+
+Sample request:
+
+```
+curl -X DELETE -H 'X-Token: 9f4c9ed9440d34f4a5bec7b901401429' 'http://localhost:30303/player'
+```
+
+Success response:
+
+```json
+{
+    "msg": "ok",
     "status": 200
 }
 ```

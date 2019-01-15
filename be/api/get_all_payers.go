@@ -2,6 +2,7 @@ package api
 
 import (
 	"net/http"
+	"strings"
 )
 
 type playerData struct {
@@ -13,8 +14,12 @@ type playerData struct {
 }
 
 func (a *API) getAllPlayersHandler(w http.ResponseWriter, r *http.Request) {
-	// Retrieve request data.
+	// Retrieve token.
 	token := r.Header.Get("X-Token")
+	if strings.TrimSpace(token) == "" {
+		respond("auth", nil, "X-Token header is required", http.StatusBadRequest, w)
+		return
+	}
 
 	// Get requester's info.
 	currentPlayer, currentPlayerErr := a.playersProc.GetPlayer(token)

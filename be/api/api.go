@@ -43,6 +43,8 @@ func (a *API) defineMux() error {
 	})
 
 	a.mux.Post("/player", http.HandlerFunc(a.addPlayerHandler))
+
+	a.mux.Delete("/player", http.HandlerFunc(a.removePlayerHandler))
 	a.mux.Options("/player", http.HandlerFunc(a.corsRequestHandler))
 
 	a.mux.Get("/player/:token", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
