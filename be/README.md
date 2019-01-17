@@ -227,7 +227,7 @@ Only admin player can perform this action.
 Sample request:
 
 ```
-curl 'http://localhost:30303/cash/add' -d '{
+curl 'http://localhost:30303/salary/add' -d '{
   "token": "fab0acf89168b3f7a883fc4e63ae8918",
   "id": "da54ebf406e323d7a5948846dd57357b"
 }'
@@ -251,7 +251,7 @@ Only admin player can perform this action. Returns an error if insufficient amou
 Sample request:
 
 ```
-curl 'http://localhost:30303/cash/add' -d '{
+curl 'http://localhost:30303/cash/deduct' -d '{
   "token": "fab0acf89168b3f7a883fc4e63ae8918",
   "id": "da54ebf406e323d7a5948846dd57357b",
   "amount": 100
@@ -276,7 +276,7 @@ Only player *sending* cash can perform this action. Returns an error if the send
 Sample request:
 
 ```
-curl 'http://localhost:30303/cash/add' -d '{
+curl 'http://localhost:30303/cash/transfer' -d '{
   "token": "f177bf59f6a7d79b33c29dd0bb145d4b",
   "idTo": "996e1d8a3e0700e55ad981dcdfb40c9d",
   "idFrom": "fb05d539204023d3cd765e7a6ff06729",
