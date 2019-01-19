@@ -11,6 +11,7 @@ type playerData struct {
 	CashAmount int    `json:"cashAmount"`
 	IsAdmin    bool   `json:"isAdmin"`
 	You        bool   `json:"you"`
+	Color      string `json:"color"`
 }
 
 func (a *API) getAllPlayersHandler(w http.ResponseWriter, r *http.Request) {
@@ -49,6 +50,7 @@ func (a *API) getAllPlayersHandler(w http.ResponseWriter, r *http.Request) {
 			CashAmount: player.CashAmount,
 			IsAdmin:    isAdmin,
 			You:        player.ID == currentPlayer.ID,
+			Color:      a.colorSet.GetColor(player.ID).Hex(),
 		})
 	}
 

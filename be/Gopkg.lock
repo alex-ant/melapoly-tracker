@@ -3,6 +3,14 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:59a33d8e6a8737c2123a2d4b236e977e591af4e720f6b883cb6f8f8e3aaee215"
+  name = "github.com/alex-ant/color-id"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "dee7890abc66701a348722dc0726afc905ef0538"
+
+[[projects]]
+  branch = "master"
   digest = "1:4d1f4ae811adc503efd9328f0bbd3133554e86fbb021b32de9b8ebd061911c66"
   name = "github.com/alex-ant/envs"
   packages = ["."]
@@ -80,6 +88,7 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/alex-ant/color-id",
     "github.com/alex-ant/envs",
     "github.com/go-zoo/bone",
     "github.com/jcuga/golongpoll",

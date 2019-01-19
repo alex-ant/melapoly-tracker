@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/alex-ant/color-id"
 	"github.com/alex-ant/melapoly-tracker/be/players"
 	"github.com/go-zoo/bone"
 	"github.com/jcuga/golongpoll"
@@ -18,6 +19,7 @@ type API struct {
 	playersProc *players.Players
 	lpManager   *golongpoll.LongpollManager
 	lpUpdatedTS int64
+	colorSet    *color.Set
 }
 
 // New returns new API.
@@ -25,6 +27,7 @@ func New(port int, playersProc *players.Players) *API {
 	return &API{
 		port:        port,
 		playersProc: playersProc,
+		colorSet:    color.NewSet(),
 	}
 }
 

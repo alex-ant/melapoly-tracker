@@ -13,6 +13,7 @@ type authResponse struct {
 		Name       string `json:"name"`
 		CashAmount int    `json:"cashAmount"`
 		IsAdmin    bool   `json:"isAdmin"`
+		Color      string `json:"color"`
 	} `json:"playerData"`
 }
 
@@ -48,6 +49,7 @@ func (a *API) authHandler(w http.ResponseWriter, r *http.Request) {
 	resp.PlayerData.Name = playerData.Name
 	resp.PlayerData.CashAmount = playerData.CashAmount
 	resp.PlayerData.IsAdmin = isAdmin
+	resp.PlayerData.Color = a.colorSet.GetColor(playerData.ID).Hex()
 
 	respond("auth", resp, "ok", http.StatusOK, w)
 }

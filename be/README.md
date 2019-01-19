@@ -69,7 +69,8 @@ Success response:
       "id": "c8c66a8acc1153edb9635a26d5940510",
       "name": "John",
       "cashAmount": 12000,
-      "isAdmin": true
+      "isAdmin": true,
+      "color": "#5AFF00"
     }
   },
   "msg": "ok",
@@ -98,14 +99,16 @@ Success response:
             "name": "John",
             "cashAmount": 12000,
             "isAdmin": false,
-            "you": true
+            "you": true,
+            "color": "#5AFF00"
         },
         {
             "id": "e760bd6e0feadd8f0d45a0ca27a26a38",
             "name": "Sarah",
             "cashAmount": 11334,
             "isAdmin": true,
-            "you": false
+            "you": false,
+            "color": "#0000FF"
         }
     ],
     "status": 200
