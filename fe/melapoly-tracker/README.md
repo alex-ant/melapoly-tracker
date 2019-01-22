@@ -1,4 +1,4 @@
-# quiz
+# melapoly-tracker
 
 > A Vue.js project
 
