@@ -90,6 +90,8 @@ curl -H 'X-Token: 9f4c9ed9440d34f4a5bec7b901401429' 'http://localhost:30303/play
 
 Success response:
 
+The requester always appears on the top of the `players` list.
+
 ```json
 {
     "msg": "ok",

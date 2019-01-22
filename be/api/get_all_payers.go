@@ -44,14 +44,21 @@ func (a *API) getAllPlayersHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		res = append(res, playerData{
+		p := playerData{
 			ID:         player.ID,
 			Name:       player.Name,
 			CashAmount: player.CashAmount,
 			IsAdmin:    isAdmin,
 			You:        player.ID == currentPlayer.ID,
 			Color:      a.colorSet.GetColor(player.ID).Hex(),
-		})
+		}
+
+		// Put the requester to the top of the result list.
+		if player.ID == currentPlayer.ID {
+			res = append([]playerData{p}, res...)
+		} else {
+			res = append(res, p)
+		}
 	}
 
 	respond("players", res, "ok", http.StatusOK, w)
