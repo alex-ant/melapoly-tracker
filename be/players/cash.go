@@ -16,6 +16,12 @@ func (p *Players) AddCash(id string, amount int) error {
 	player.CashAmount += amount
 	p.players[token] = player
 
+	// Record transaction.
+	tErr := p.addTransaction(BankID, id, amount)
+	if tErr != nil {
+		return tErr
+	}
+
 	return nil
 }
 
@@ -32,6 +38,12 @@ func (p *Players) AddSalary(id string) error {
 	player := p.players[token]
 	player.CashAmount += p.salary
 	p.players[token] = player
+
+	// Record transaction.
+	tErr := p.addTransaction(BankID, id, p.salary)
+	if tErr != nil {
+		return tErr
+	}
 
 	return nil
 }
@@ -55,6 +67,12 @@ func (p *Players) DeductCash(id string, amount int) error {
 
 	player.CashAmount -= amount
 	p.players[token] = player
+
+	// Record transaction.
+	tErr := p.addTransaction(id, BankID, amount)
+	if tErr != nil {
+		return tErr
+	}
 
 	return nil
 }
@@ -90,6 +108,12 @@ func (p *Players) TransferCash(fromID, toID string, amount int) error {
 	// Add cash to receiver.
 	playerTo.CashAmount += amount
 	p.players[tokenTo] = playerTo
+
+	// Record transaction.
+	tErr := p.addTransaction(fromID, toID, amount)
+	if tErr != nil {
+		return tErr
+	}
 
 	return nil
 }

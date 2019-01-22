@@ -24,6 +24,7 @@
 * [POST /salary/add](#post_salary_add) - Add salary for the player.
 * [POST /cash/deduct](#post_cash_deduct) - Deduct cash from the player.
 * [POST /cash/transfer](#post_cash_transfer) - Transfer cash between players.
+* [GET /transactions](#get_transactions) - Get transactions.
 
 #### <a name="post_player"></a>POST /player
 
@@ -295,5 +296,58 @@ Success response:
 {
     "msg": "ok",
     "status": 200
+}
+```
+
+#### <a name="get_transactions"></a>GET /transactions
+
+*Get transactions.*
+
+Sample request:
+
+```
+curl 'http://localhost:30303/transactions'
+```
+
+Success response:
+
+```json
+{
+    "msg": "ok",
+    "status": 200,
+    "transactions": [
+        {
+            "fromID": "0544c7cd08d58c5c080d1e8241037cd6",
+            "fromName": "John",
+            "toID": "BANK",
+            "toName": "BANK",
+            "amount": 300,
+            "ts": "2019-01-22T14:39:25.672266Z"
+        },
+        {
+            "fromID": "BANK",
+            "fromName": "BANK",
+            "toID": "0544c7cd08d58c5c080d1e8241037cd6",
+            "toName": "John",
+            "amount": 2000,
+            "ts": "2019-01-22T14:38:16.087892Z"
+        },
+        {
+            "fromID": "edd6dc357f868bdf14eca17cfb21eb78",
+            "fromName": "Sarah",
+            "toID": "5af54720796fecb146119e4a34c2ca33",
+            "toName": "Bob",
+            "amount": 200,
+            "ts": "2019-01-22T14:36:07.61039Z"
+        },
+        {
+            "fromID": "0544c7cd08d58c5c080d1e8241037cd6",
+            "fromName": "John",
+            "toID": "5af54720796fecb146119e4a34c2ca33",
+            "toName": "Bob",
+            "amount": 100,
+            "ts": "2019-01-22T14:35:19.721045Z"
+        }
+    ]
 }
 ```

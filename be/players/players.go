@@ -16,10 +16,12 @@ type Player struct {
 // Players contains players data.
 type Players struct {
 	mu            sync.Mutex
+	tMu           sync.Mutex
 	initialAmount int
 	salary        int
 	players       map[string]Player
 	adminPlayer   string
+	transactions  []Transaction
 }
 
 // New returns new Players instance.

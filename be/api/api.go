@@ -78,6 +78,11 @@ func (a *API) defineMux() error {
 	a.mux.Post("/cash/transfer", http.HandlerFunc(a.transferCashHandler))
 	a.mux.Options("/cash/transfer", http.HandlerFunc(a.corsRequestHandler))
 
+	a.mux.Get("/transactions", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		setCORSHeaders(w)
+		a.getTransactionsHandler(w, r)
+	}))
+
 	return nil
 }
 
